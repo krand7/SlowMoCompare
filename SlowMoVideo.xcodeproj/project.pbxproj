@@ -29,6 +29,7 @@
 		6D2F1E6519C75C0100683D5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2F1E5F19C75C0100683D5F /* QuartzCore.framework */; };
 		6D2F1E6819C75C6D00683D5F /* KPRRecordVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */; };
 		6DDFCB3819C78A9600C2EC12 /* KPREditVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */; };
+		6DDFCB3B19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB3A19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPRRecordVideoViewController.m; sourceTree = "<group>"; };
 		6DDFCB3619C78A9600C2EC12 /* KPREditVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPREditVideoViewController.h; sourceTree = "<group>"; };
 		6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPREditVideoViewController.m; sourceTree = "<group>"; };
+		6DDFCB3919C8D07F00C2EC12 /* KPRChooseMoveTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPRChooseMoveTableViewController.h; sourceTree = "<group>"; };
+		6DDFCB3A19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPRChooseMoveTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,12 +150,9 @@
 				6D2F1E3219C7425E00683D5F /* KPRAppDelegate.h */,
 				6D2F1E3319C7425E00683D5F /* KPRAppDelegate.m */,
 				6D2F1E3519C7425E00683D5F /* Main.storyboard */,
-				6DDFCB3619C78A9600C2EC12 /* KPREditVideoViewController.h */,
-				6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */,
-				6D2F1E6619C75C6D00683D5F /* KPRRecordVideoViewController.h */,
-				6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */,
-				6D2F1E3819C7425E00683D5F /* KPRViewController.h */,
-				6D2F1E3919C7425E00683D5F /* KPRViewController.m */,
+				6DDFCB3D19C8D0A500C2EC12 /* Root Navigation */,
+				6DDFCB3E19C8D0AE00C2EC12 /* Main View */,
+				6DDFCB3C19C8D09300C2EC12 /* Video Options */,
 				6D2F1E3B19C7425E00683D5F /* Images.xcassets */,
 				6D2F1E2A19C7425E00683D5F /* Supporting Files */,
 			);
@@ -188,6 +188,35 @@
 				6D2F1E4B19C7425E00683D5F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6DDFCB3C19C8D09300C2EC12 /* Video Options */ = {
+			isa = PBXGroup;
+			children = (
+				6DDFCB3619C78A9600C2EC12 /* KPREditVideoViewController.h */,
+				6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */,
+				6D2F1E6619C75C6D00683D5F /* KPRRecordVideoViewController.h */,
+				6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */,
+			);
+			name = "Video Options";
+			sourceTree = "<group>";
+		};
+		6DDFCB3D19C8D0A500C2EC12 /* Root Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				6DDFCB3919C8D07F00C2EC12 /* KPRChooseMoveTableViewController.h */,
+				6DDFCB3A19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m */,
+			);
+			name = "Root Navigation";
+			sourceTree = "<group>";
+		};
+		6DDFCB3E19C8D0AE00C2EC12 /* Main View */ = {
+			isa = PBXGroup;
+			children = (
+				6D2F1E3819C7425E00683D5F /* KPRViewController.h */,
+				6D2F1E3919C7425E00683D5F /* KPRViewController.m */,
+			);
+			name = "Main View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,6 +320,7 @@
 				6DDFCB3819C78A9600C2EC12 /* KPREditVideoViewController.m in Sources */,
 				6D2F1E3419C7425E00683D5F /* KPRAppDelegate.m in Sources */,
 				6D2F1E3A19C7425E00683D5F /* KPRViewController.m in Sources */,
+				6DDFCB3B19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m in Sources */,
 				6D2F1E3019C7425E00683D5F /* main.m in Sources */,
 				6D2F1E6819C75C6D00683D5F /* KPRRecordVideoViewController.m in Sources */,
 			);
