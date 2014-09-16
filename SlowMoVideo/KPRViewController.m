@@ -47,6 +47,17 @@
 
 #pragma mark - Slow motion
 
+- (IBAction)playSlowMoButtonPressed:(UIButton *)sender {
+    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideo];
+    AVPlayer *slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
+    
+    AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:slowMoPlayer];
+    [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
+    [self.view.layer addSublayer:slowMoPlayerLayer];
+    [slowMoPlayer seekToTime:kCMTimeZero];
+    
+    [slowMoPlayer play];
+}
 
 #pragma mark - Helper methods
 

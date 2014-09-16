@@ -149,6 +149,7 @@
     [self.delegate retrieveVideo:mixComposition];
     NSLog(@"Passed mixComposition to delegate");
     
+    /*
     // Export
     AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
     exporter.outputURL = fileURL;
@@ -159,6 +160,7 @@
             [self exportDidFinish:exporter];
         });
     }];
+     */
 }
 
 #pragma mark - Helper Methods

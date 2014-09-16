@@ -22,6 +22,7 @@
 
 - (IBAction)playMovieButtonPressed:(UIButton *)sender;
 - (IBAction)selectMovieButtonPressed:(UIBarButtonItem *)sender;
+- (IBAction)playSlowMoButtonPressed:(UIButton *)sender;
 
 -(BOOL)selectMovieToPlayFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 
