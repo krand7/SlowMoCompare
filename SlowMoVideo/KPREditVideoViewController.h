@@ -13,9 +13,18 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+@protocol KPREditVideoViewControllerDelegate <NSObject>
+
+@required
+-(void)retrieveVideo:(AVAsset *)video;
+
+@end
+
 @interface KPREditVideoViewController : UIViewController <UIImagePickerControllerDelegate, MPMediaPickerControllerDelegate> {
     BOOL isSelectingAssetOne;
 }
+
+@property (weak, nonatomic) id <KPREditVideoViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) AVAsset *videoAssetOne;
 @property (strong, nonatomic) AVAsset *videoAssetTwo;

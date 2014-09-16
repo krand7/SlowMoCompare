@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "KPREditVideoViewController.h"
 
-@interface KPRViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface KPRViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KPREditVideoViewControllerDelegate>
+
+@property (strong, nonatomic) AVAsset *slowMoVideo;
 
 @property (strong, nonatomic) MPMoviePlayerController *selectedMovie;
 @property (strong, nonatomic) IBOutlet UIView *demoView;

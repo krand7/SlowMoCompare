@@ -144,6 +144,11 @@
     NSString *myPathDocs = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"slowmoVideo-%d.mov", arc4random() % 1000]];
     NSURL *fileURL = [NSURL fileURLWithPath:myPathDocs];
     
+    // Send to delegate
+    NSLog(@"Asset prepared");
+    [self.delegate retrieveVideo:mixComposition];
+    NSLog(@"Passed mixComposition to delegate");
+    
     // Export
     AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
     exporter.outputURL = fileURL;

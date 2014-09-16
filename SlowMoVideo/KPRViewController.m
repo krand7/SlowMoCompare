@@ -90,5 +90,29 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - Navigation
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[KPREditVideoViewController class]]) {
+        KPREditVideoViewController *targetViewController = segue.destinationViewController;
+        targetViewController.delegate = self;
+        NSLog(@"target view controller set as %@", targetViewController.delegate);
+    }
+}
+
+#pragma mark - KPREditVideoViewController - Delegate methods
+
+-(void)retrieveVideo:(AVAsset *)video
+{
+    self.slowMoVideo = video;
+    NSLog(@"set slowMoVideo asset from editor view");
+}
+
+
+
+
+
+
 
 @end
