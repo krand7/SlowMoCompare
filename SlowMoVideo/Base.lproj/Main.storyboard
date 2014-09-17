@@ -35,30 +35,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gX5-WW-LGe">
-                                <rect key="frame" x="62" y="483" width="75" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Play Movie">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="playMovieButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rNM-kV-pLk"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="psj-kg-OVe">
-                                <rect key="frame" x="20" y="84" width="280" height="176"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LzP-4A-MO9">
-                                <rect key="frame" x="20" y="292" width="280" height="176"/>
+                                <rect key="frame" x="0.0" y="270" width="320" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRg-Ma-yYP">
-                                <rect key="frame" x="178" y="483" width="90" height="30"/>
+                                <rect key="frame" x="145" y="483" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Play SlowMo">
+                                <state key="normal" title="Play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -66,16 +56,16 @@
                                 </connections>
                             </button>
                             <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="vpY-gk-O1f">
-                                <rect key="frame" x="13" y="527" width="94" height="29"/>
+                                <rect key="frame" x="113" y="521" width="94" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="frameRateStepperChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="c8e-r9-DRM"/>
                                 </connections>
                             </stepper>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1/1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0iW-kS-PKb">
-                                <rect key="frame" x="126" y="531" width="25" height="21"/>
+                                <rect key="frame" x="236" y="523" width="42" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -93,7 +83,6 @@
                         <outlet property="demoView" destination="psj-kg-OVe" id="N63-6N-jIn"/>
                         <outlet property="frameRateLabel" destination="0iW-kS-PKb" id="C3Z-eF-nye"/>
                         <outlet property="frameRateStepper" destination="vpY-gk-O1f" id="tdh-cL-Dtr"/>
-                        <outlet property="playMovieButton" destination="gX5-WW-LGe" id="Ibp-kB-Ei3"/>
                         <outlet property="playSloMoButton" destination="sRg-Ma-yYP" id="yoP-5d-2HD"/>
                         <outlet property="trainingView" destination="LzP-4A-MO9" id="JHN-OO-nQ4"/>
                         <segue destination="YWh-Bk-aXg" kind="modal" identifier="toRecordVideoViewController" id="DxN-3O-hRp"/>

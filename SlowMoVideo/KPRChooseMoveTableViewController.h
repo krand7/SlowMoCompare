@@ -10,7 +10,7 @@
 #import "KPRBasicMotionData.h"
 #import "KPRBasicMotionObject.h"
 
-@protocol KPRChooseMoveTableViewController <NSObject>
+@protocol KPRChooseMoveTableViewControllerDelegate <NSObject>
 
 //-(void)retrieveVideoAsset:(AVAsset *)video;
 
@@ -18,7 +18,7 @@
 
 @interface KPRChooseMoveTableViewController : UITableViewController
 
-@property (weak, nonatomic) id <KPRChooseMoveTableViewController> delegate;
+@property (weak, nonatomic) id <KPRChooseMoveTableViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) NSMutableArray *basicMotions;
 

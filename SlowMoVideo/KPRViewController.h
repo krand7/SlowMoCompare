@@ -12,16 +12,17 @@
 #import "KPREditVideoViewController.h"
 #import "KPRChooseMoveTableViewController.h"
 
-@interface KPRViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KPRChooseMoveTableViewController>
+@interface KPRViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KPRChooseMoveTableViewControllerDelegate>
 
-@property (strong, nonatomic) AVAsset *slowMoVideo;
 @property (strong, nonatomic) KPRBasicMotionObject *basicMotion;
+@property (strong, nonatomic) AVAsset *submittedVideo;
+@property (strong, nonatomic) AVAsset *slowMoVideoDemo;
+@property (strong, nonatomic) AVAsset *slowMoVideoTraining;
 @property (strong, nonatomic) AVPlayer *slowMoPlayer;
+@property (strong, nonatomic) AVPlayer *slowMoPlayerTwo;
 
-@property (strong, nonatomic) MPMoviePlayerController *selectedMovie;
 @property (strong, nonatomic) IBOutlet UIView *demoView;
 @property (strong, nonatomic) IBOutlet UIView *trainingView;
-@property (strong, nonatomic) IBOutlet UIButton *playMovieButton;
 @property (strong, nonatomic) IBOutlet UIButton *playSloMoButton;
 
 // Slow motion controls
@@ -29,8 +30,6 @@
 @property (strong, nonatomic) IBOutlet UIStepper *frameRateStepper;
 - (IBAction)frameRateStepperChanged:(UIStepper *)sender;
 
-
-- (IBAction)playMovieButtonPressed:(UIButton *)sender;
 - (IBAction)selectMovieButtonPressed:(UIBarButtonItem *)sender;
 - (IBAction)playSlowMoButtonPressed:(UIButton *)sender;
 
