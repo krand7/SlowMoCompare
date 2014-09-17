@@ -16,11 +16,13 @@
 
 @property (strong, nonatomic) AVAsset *slowMoVideo;
 @property (strong, nonatomic) KPRBasicMotionObject *basicMotion;
+@property (strong, nonatomic) AVPlayer *slowMoPlayer;
 
 @property (strong, nonatomic) MPMoviePlayerController *selectedMovie;
 @property (strong, nonatomic) IBOutlet UIView *demoView;
 @property (strong, nonatomic) IBOutlet UIView *trainingView;
 @property (strong, nonatomic) IBOutlet UIButton *playMovieButton;
+@property (strong, nonatomic) IBOutlet UIButton *playSloMoButton;
 
 // Slow motion controls
 @property (strong, nonatomic) IBOutlet UILabel *frameRateLabel;

@@ -33,6 +33,15 @@
 		6DDFCB4119C8D7BC00C2EC12 /* KPRBasicMotionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4019C8D7BC00C2EC12 /* KPRBasicMotionData.m */; };
 		6DDFCB4519C8DD4B00C2EC12 /* learning_block.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4419C8DD4B00C2EC12 /* learning_block.mov */; };
 		6DDFCB4819C8E42200C2EC12 /* KPRBasicMotionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4719C8E42200C2EC12 /* KPRBasicMotionObject.m */; };
+		6DDFCB5419C92A4A00C2EC12 /* bodypunch_front.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4B19C92A4A00C2EC12 /* bodypunch_front.MOV */; };
+		6DDFCB5519C92A4A00C2EC12 /* bodypunch_side.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4C19C92A4A00C2EC12 /* bodypunch_side.MOV */; };
+		6DDFCB5619C92A4A00C2EC12 /* facepunch_front.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4D19C92A4A00C2EC12 /* facepunch_front.MOV */; };
+		6DDFCB5719C92A4A00C2EC12 /* facepunch_side.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4E19C92A4A00C2EC12 /* facepunch_side.MOV */; };
+		6DDFCB5819C92A4A00C2EC12 /* neckhit_front.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4F19C92A4A00C2EC12 /* neckhit_front.MOV */; };
+		6DDFCB5919C92A4A00C2EC12 /* neckhit_side.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB5019C92A4A00C2EC12 /* neckhit_side.MOV */; };
+		6DDFCB5A19C92A4A00C2EC12 /* palmhit_front.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB5119C92A4A00C2EC12 /* palmhit_front.MOV */; };
+		6DDFCB5B19C92A4A00C2EC12 /* palmhit_side.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB5219C92A4A00C2EC12 /* palmhit_side.MOV */; };
+		6DDFCB5C19C92A4A00C2EC12 /* taegeuk1.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFCB5319C92A4A00C2EC12 /* taegeuk1.MOV */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +91,15 @@
 		6DDFCB4419C8DD4B00C2EC12 /* learning_block.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = learning_block.mov; path = SlowMoVideo/learning_block.mov; sourceTree = SOURCE_ROOT; };
 		6DDFCB4619C8E42200C2EC12 /* KPRBasicMotionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPRBasicMotionObject.h; sourceTree = "<group>"; };
 		6DDFCB4719C8E42200C2EC12 /* KPRBasicMotionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPRBasicMotionObject.m; sourceTree = "<group>"; };
+		6DDFCB4B19C92A4A00C2EC12 /* bodypunch_front.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = bodypunch_front.MOV; sourceTree = "<group>"; };
+		6DDFCB4C19C92A4A00C2EC12 /* bodypunch_side.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = bodypunch_side.MOV; sourceTree = "<group>"; };
+		6DDFCB4D19C92A4A00C2EC12 /* facepunch_front.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = facepunch_front.MOV; sourceTree = "<group>"; };
+		6DDFCB4E19C92A4A00C2EC12 /* facepunch_side.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = facepunch_side.MOV; sourceTree = "<group>"; };
+		6DDFCB4F19C92A4A00C2EC12 /* neckhit_front.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = neckhit_front.MOV; sourceTree = "<group>"; };
+		6DDFCB5019C92A4A00C2EC12 /* neckhit_side.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = neckhit_side.MOV; sourceTree = "<group>"; };
+		6DDFCB5119C92A4A00C2EC12 /* palmhit_front.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = palmhit_front.MOV; sourceTree = "<group>"; };
+		6DDFCB5219C92A4A00C2EC12 /* palmhit_side.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = palmhit_side.MOV; sourceTree = "<group>"; };
+		6DDFCB5319C92A4A00C2EC12 /* taegeuk1.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = taegeuk1.MOV; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +187,15 @@
 		6D2F1E2A19C7425E00683D5F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6DDFCB4B19C92A4A00C2EC12 /* bodypunch_front.MOV */,
+				6DDFCB4C19C92A4A00C2EC12 /* bodypunch_side.MOV */,
+				6DDFCB4D19C92A4A00C2EC12 /* facepunch_front.MOV */,
+				6DDFCB4E19C92A4A00C2EC12 /* facepunch_side.MOV */,
+				6DDFCB4F19C92A4A00C2EC12 /* neckhit_front.MOV */,
+				6DDFCB5019C92A4A00C2EC12 /* neckhit_side.MOV */,
+				6DDFCB5119C92A4A00C2EC12 /* palmhit_front.MOV */,
+				6DDFCB5219C92A4A00C2EC12 /* palmhit_side.MOV */,
+				6DDFCB5319C92A4A00C2EC12 /* taegeuk1.MOV */,
 				6DDFCB4419C8DD4B00C2EC12 /* learning_block.mov */,
 				6D2F1E2B19C7425E00683D5F /* SlowMoVideo-Info.plist */,
 				6D2F1E2C19C7425E00683D5F /* InfoPlist.strings */,
@@ -321,9 +348,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DDFCB5919C92A4A00C2EC12 /* neckhit_side.MOV in Resources */,
+				6DDFCB5419C92A4A00C2EC12 /* bodypunch_front.MOV in Resources */,
 				6DDFCB4519C8DD4B00C2EC12 /* learning_block.mov in Resources */,
+				6DDFCB5519C92A4A00C2EC12 /* bodypunch_side.MOV in Resources */,
+				6DDFCB5819C92A4A00C2EC12 /* neckhit_front.MOV in Resources */,
+				6DDFCB5719C92A4A00C2EC12 /* facepunch_side.MOV in Resources */,
 				6D2F1E3C19C7425E00683D5F /* Images.xcassets in Resources */,
+				6DDFCB5B19C92A4A00C2EC12 /* palmhit_side.MOV in Resources */,
+				6DDFCB5A19C92A4A00C2EC12 /* palmhit_front.MOV in Resources */,
+				6DDFCB5619C92A4A00C2EC12 /* facepunch_front.MOV in Resources */,
 				6D2F1E2E19C7425E00683D5F /* InfoPlist.strings in Resources */,
+				6DDFCB5C19C92A4A00C2EC12 /* taegeuk1.MOV in Resources */,
 				6D2F1E3719C7425E00683D5F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

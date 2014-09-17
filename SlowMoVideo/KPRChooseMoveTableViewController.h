@@ -12,7 +12,7 @@
 
 @protocol KPRChooseMoveTableViewController <NSObject>
 
--(void)retrieveVideoAsset:(AVAsset *)video;
+//-(void)retrieveVideoAsset:(AVAsset *)video;
 
 @end
 

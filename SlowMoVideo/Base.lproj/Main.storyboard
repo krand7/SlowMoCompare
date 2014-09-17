@@ -85,7 +85,7 @@
                     <navigationItem key="navigationItem" id="D9d-GB-yLr">
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="e5q-l5-S6U">
                             <connections>
-                                <segue destination="YWh-Bk-aXg" kind="push" id="7nM-hE-ZMh"/>
+                                <action selector="selectMovieButtonPressed:" destination="vXZ-lx-hvc" id="4rn-Qr-3fE"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -94,7 +94,9 @@
                         <outlet property="frameRateLabel" destination="0iW-kS-PKb" id="C3Z-eF-nye"/>
                         <outlet property="frameRateStepper" destination="vpY-gk-O1f" id="tdh-cL-Dtr"/>
                         <outlet property="playMovieButton" destination="gX5-WW-LGe" id="Ibp-kB-Ei3"/>
+                        <outlet property="playSloMoButton" destination="sRg-Ma-yYP" id="yoP-5d-2HD"/>
                         <outlet property="trainingView" destination="LzP-4A-MO9" id="JHN-OO-nQ4"/>
+                        <segue destination="YWh-Bk-aXg" kind="modal" identifier="toRecordVideoViewController" id="DxN-3O-hRp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

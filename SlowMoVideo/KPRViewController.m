@@ -10,7 +10,7 @@
 #import "KPREditVideoViewController.h"
 #import "KPRChooseMoveTableViewController.h"
 
-@interface KPRViewController ()
+@interface KPRViewController () <UIActionSheetDelegate>
 
 @end
 
@@ -23,6 +23,7 @@ double frameRateScaleFactor;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.playMovieButton.enabled = NO;
+    self.playSloMoButton.enabled = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -30,6 +31,10 @@ double frameRateScaleFactor;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+#pragma mark - Slow motion
 
 - (IBAction)playMovieButtonPressed:(UIButton *)sender {
     if (self.selectedMovie) {
@@ -39,33 +44,36 @@ double frameRateScaleFactor;
         self.selectedMovie.shouldAutoplay = YES;
         
         [self.selectedMovie play];
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myMovieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.selectedMovie];
+        //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myMovieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.selectedMovie];
     } else {
     }
 }
 
-- (IBAction)selectMovieButtonPressed:(UIBarButtonItem *)sender {
-    [self selectMovieToPlayFromViewController:self usingDelegate:self];
-}
-
-#pragma mark - Slow motion
-
 - (IBAction)playSlowMoButtonPressed:(UIButton *)sender {
     
+    // Create AVPlayerItem from current video asset
     AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideo];
-    AVPlayer *slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
     
-    AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:slowMoPlayer];
-    [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
-    [self.view.layer addSublayer:slowMoPlayerLayer];
-    [slowMoPlayer seekToTime:kCMTimeZero];
+    // Initialize AVPlayer if necessary, otherwise replace the current AVPlayerItem
+    if (!self.slowMoPlayer) {
+        self.slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
+        AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayer];
+        [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
+        [self.view.layer addSublayer:slowMoPlayerLayer];
+    }
+    else [self.slowMoPlayer replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
     
-    [slowMoPlayer play];
+    [self.slowMoPlayer seekToTime:kCMTimeZero];
+    [self.slowMoPlayer play];
     
 }
 
 - (IBAction)frameRateStepperChanged:(UIStepper *)sender {
 
+    self.playSloMoButton.enabled = NO;
+    
+
+    
     // Adjust frame rate
     frameRateScaleFactor = self.frameRateStepper.value;
     self.frameRateLabel.text = [NSString stringWithFormat:@"1/%0.0f", frameRateScaleFactor];
@@ -87,16 +95,14 @@ double frameRateScaleFactor;
     
     // Scale video
     CMTime videoDuration = self.basicMotion.video.duration;
-    
-    NSLog(@"Video duration (original): %lld", videoDuration.value);
-    NSLog(@"Frame rate scale factor: %f", frameRateScaleFactor);
-    NSLog(@"Video duration (scaled): %f", videoDuration.value*frameRateScaleFactor);
-    
     [videoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration) toDuration:CMTimeMake(videoDuration.value*frameRateScaleFactor, videoDuration.timescale)];
     
-    [self retrieveSlowMoVideo:mixComposition];
+    self.slowMoVideo = mixComposition;
     
+    self.playSloMoButton.enabled = YES;
 }
+
+
 
 #pragma mark - Helper methods
 
@@ -114,6 +120,8 @@ double frameRateScaleFactor;
         return YES;
     }
 }
+
+
 
 #pragma mark - UIImagePickerController Delegate
 
@@ -138,34 +146,30 @@ double frameRateScaleFactor;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Navigation
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+
+#pragma mark - UIActionSheet Delegate
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if ([segue.destinationViewController isKindOfClass:[KPREditVideoViewController class]]) {
-        KPREditVideoViewController *targetViewController = segue.destinationViewController;
-        targetViewController.delegate = self;
-        NSLog(@"target view controller set as %@", targetViewController.delegate);
+    if (buttonIndex==0) {
+        [self selectMovieToPlayFromViewController:self usingDelegate:self];
+    } else if (buttonIndex==1) {
+        [self performSegueWithIdentifier:@"toRecordVideoViewController" sender:self];
+    } else {
+        NSLog(@"Press a button");
     }
 }
 
-#pragma mark - Video Loading
 
--(void)retrieveSlowMoVideo:(AVAsset *)video
-{
-    self.slowMoVideo = video;
-    NSLog(@"set slowMoVideo asset from frame rate change");
+#pragma mark - Navigation
+
+- (IBAction)selectMovieButtonPressed:(UIBarButtonItem *)sender {
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Import video from where?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Camera", nil];
+    [actionSheet showInView:self.view];
+
 }
-
-#pragma mark - KPRChooseMotionTableViewController - Delegate methods
-
--(void)retrieveVideoAsset:(AVAsset *)video
-{
-    NSLog(@"Retrieved slowmotion video");
-}
-
-
-
 
 
 @end
