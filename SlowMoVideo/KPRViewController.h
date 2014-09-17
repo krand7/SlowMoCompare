@@ -10,10 +10,12 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "KPREditVideoViewController.h"
+#import "KPRChooseMoveTableViewController.h"
 
-@interface KPRViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KPREditVideoViewControllerDelegate>
+@interface KPRViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KPREditVideoViewControllerDelegate, KPRChooseMoveTableViewController, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) AVAsset *slowMoVideo;
+@property (strong, nonatomic) KPRBasicMotionObject *basicMotion;
 
 @property (strong, nonatomic) MPMoviePlayerController *selectedMovie;
 @property (strong, nonatomic) IBOutlet UIView *demoView;

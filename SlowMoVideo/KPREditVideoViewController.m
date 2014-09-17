@@ -146,7 +146,7 @@
     
     // Send to delegate
     NSLog(@"Asset prepared");
-    [self.delegate retrieveVideo:mixComposition];
+    [self.delegate retrieveSloMoVideo:mixComposition];
     NSLog(@"Passed mixComposition to delegate");
     
     /*

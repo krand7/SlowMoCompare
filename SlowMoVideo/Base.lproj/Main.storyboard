@@ -151,11 +151,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="D9d-GB-yLr">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="qXO-hH-SAD">
-                            <connections>
-                                <action selector="selectMovieButtonPressed:" destination="vXZ-lx-hvc" id="Xzd-Wq-IlZ"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="e5q-l5-S6U">
                             <connections>
                                 <segue destination="YWh-Bk-aXg" kind="push" id="7nM-hE-ZMh"/>
@@ -202,7 +197,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0qx-KB-yRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1091" y="-249"/>
+            <point key="canvasLocation" x="1089" y="-74"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wig-SM-zUr">
@@ -220,7 +215,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9uV-Ay-d12" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="547" y="-249"/>
+            <point key="canvasLocation" x="557" y="-74"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

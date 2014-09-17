@@ -8,6 +8,7 @@
 
 #import "KPRViewController.h"
 #import "KPREditVideoViewController.h"
+#import "KPRChooseMoveTableViewController.h"
 
 @interface KPRViewController ()
 
@@ -31,7 +32,7 @@
 - (IBAction)playMovieButtonPressed:(UIButton *)sender {
     if (self.selectedMovie) {
         NSLog(@"movie passed was: %@", self.selectedMovie);
-        [[self.selectedMovie view] setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
+        [[self.selectedMovie view] setFrame:CGRectMake(self.trainingView.frame.origin.x, self.trainingView.frame.origin.y, self.trainingView.frame.size.width, self.trainingView.frame.size.height)];
         [self.view addSubview:self.selectedMovie.view];
         self.selectedMovie.shouldAutoplay = YES;
         
@@ -48,7 +49,7 @@
 #pragma mark - Slow motion
 
 - (IBAction)playSlowMoButtonPressed:(UIButton *)sender {
-    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideo];
+    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.basicMotion.video];
     AVPlayer *slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
     
     AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:slowMoPlayer];
@@ -114,13 +115,18 @@
 
 #pragma mark - KPREditVideoViewController - Delegate methods
 
--(void)retrieveVideo:(AVAsset *)video
+-(void)retrieveSloMoVideo:(AVAsset *)video
 {
     self.slowMoVideo = video;
     NSLog(@"set slowMoVideo asset from editor view");
 }
 
+#pragma mark - KPRChooseMotionTableViewController - Delegate methods
 
+-(void)retrieveVideoAsset:(AVAsset *)video
+{
+    NSLog(@"Retrieved slowmotion video");
+}
 
 
 

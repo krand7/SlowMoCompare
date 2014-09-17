@@ -16,7 +16,7 @@
 @protocol KPREditVideoViewControllerDelegate <NSObject>
 
 @required
--(void)retrieveVideo:(AVAsset *)video;
+-(void)retrieveSloMoVideo:(AVAsset *)video;
 
 @end
 
