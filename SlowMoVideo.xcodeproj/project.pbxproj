@@ -174,6 +174,7 @@
 				6D2F1E2C19C7425E00683D5F /* InfoPlist.strings */,
 				6D2F1E2F19C7425E00683D5F /* main.m */,
 				6D2F1E3119C7425E00683D5F /* SlowMoVideo-Prefix.pch */,
+				6DDFCB4A19C91FB800C2EC12 /* Old Files */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -199,8 +200,6 @@
 		6DDFCB3C19C8D09300C2EC12 /* Video Options */ = {
 			isa = PBXGroup;
 			children = (
-				6DDFCB3619C78A9600C2EC12 /* KPREditVideoViewController.h */,
-				6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */,
 				6D2F1E6619C75C6D00683D5F /* KPRRecordVideoViewController.h */,
 				6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */,
 			);
@@ -234,6 +233,15 @@
 				6DDFCB4719C8E42200C2EC12 /* KPRBasicMotionObject.m */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		6DDFCB4A19C91FB800C2EC12 /* Old Files */ = {
+			isa = PBXGroup;
+			children = (
+				6DDFCB3619C78A9600C2EC12 /* KPREditVideoViewController.h */,
+				6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */,
+			);
+			name = "Old Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

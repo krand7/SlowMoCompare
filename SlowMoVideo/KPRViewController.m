@@ -16,6 +16,8 @@
 
 @implementation KPRViewController
 
+double frameRateScaleFactor;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,7 +51,8 @@
 #pragma mark - Slow motion
 
 - (IBAction)playSlowMoButtonPressed:(UIButton *)sender {
-    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.basicMotion.video];
+    
+    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideo];
     AVPlayer *slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
     
     AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:slowMoPlayer];
@@ -58,10 +61,44 @@
     [slowMoPlayer seekToTime:kCMTimeZero];
     
     [slowMoPlayer play];
+    
+}
+
+- (IBAction)frameRateStepperChanged:(UIStepper *)sender {
+
+    // Adjust frame rate
+    frameRateScaleFactor = self.frameRateStepper.value;
+    self.frameRateLabel.text = [NSString stringWithFormat:@"1/%0.0f", frameRateScaleFactor];
+    
+    // Create AVMutableComposition
+    AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
+    
+    // Create video track
+    AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    // Insert video into track, watching for errors
+    NSError *error = nil;
+    BOOL videoInsertResult = [videoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, self.basicMotion.video.duration) ofTrack:[[self.basicMotion.video tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:&error];
+    
+    if (error || !videoInsertResult) {
+        NSLog(@"%@", error);
+    }
+    
+    
+    // Scale video
+    CMTime videoDuration = self.basicMotion.video.duration;
+    
+    NSLog(@"Video duration (original): %lld", videoDuration.value);
+    NSLog(@"Frame rate scale factor: %f", frameRateScaleFactor);
+    NSLog(@"Video duration (scaled): %f", videoDuration.value*frameRateScaleFactor);
+    
+    [videoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration) toDuration:CMTimeMake(videoDuration.value*frameRateScaleFactor, videoDuration.timescale)];
+    
+    [self retrieveSlowMoVideo:mixComposition];
+    
 }
 
 #pragma mark - Helper methods
-
 
 -(BOOL)selectMovieToPlayFromViewController:(UIViewController *)controller usingDelegate:(id)delegate
 {
@@ -77,7 +114,6 @@
         return YES;
     }
 }
-
 
 #pragma mark - UIImagePickerController Delegate
 
@@ -113,12 +149,12 @@
     }
 }
 
-#pragma mark - KPREditVideoViewController - Delegate methods
+#pragma mark - Video Loading
 
--(void)retrieveSloMoVideo:(AVAsset *)video
+-(void)retrieveSlowMoVideo:(AVAsset *)video
 {
     self.slowMoVideo = video;
-    NSLog(@"set slowMoVideo asset from editor view");
+    NSLog(@"set slowMoVideo asset from frame rate change");
 }
 
 #pragma mark - KPRChooseMotionTableViewController - Delegate methods
