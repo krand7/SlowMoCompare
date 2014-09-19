@@ -23,7 +23,8 @@ double frameRateScaleFactor;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.playSloMoButton.enabled = NO;
-    self.frameRateStepper.enabled = NO;
+    self.slowMoVideoDemo = self.basicMotion.video;
+    [self initializeSlowMoVideoPlayerDemo:YES andTraining:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,37 +42,7 @@ double frameRateScaleFactor;
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] init];
     [activityIndicator startAnimating];
     
-    // Create AVPlayerItem from current video asset
-    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoDemo];
-    
-    // Initialize AVPlayer if necessary, otherwise replace the current AVPlayerItem
-    if (!self.slowMoPlayer) {
-        self.slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
-        AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayer];
-        [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
-        [self.view.layer addSublayer:slowMoPlayerLayer];
-    }
-    else [self.slowMoPlayer replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
-    
-//    [self.slowMoPlayer seekToTime:kCMTimeZero];
-    
-    
-    
-    AVPlayerItem *slowMoPlayerItemTwo = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoTraining];
-    
-    if (!self.slowMoPlayerTwo) {
-        self.slowMoPlayerTwo = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItemTwo];
-        AVPlayerLayer *slowMoPlayerLayerTwo = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerTwo];
-        [slowMoPlayerLayerTwo setFrame:CGRectMake(self.trainingView.frame.origin.x, self.trainingView.frame.origin.y, self.trainingView.frame.size.width, self.trainingView.frame.size.height)];
-        [self.view.layer addSublayer:slowMoPlayerLayerTwo];
-    }
-    else [self.slowMoPlayerTwo replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
-    
-//    [self.slowMoPlayerTwo seekToTime:kCMTimeZero];
-
-    
-//    self.slowMoPlayer.actionAtItemEnd = 1;
-//    self.slowMoPlayerTwo.actionAtItemEnd = 1;
+    [self initializeSlowMoVideoPlayerDemo:YES andTraining:YES];
     
     [activityIndicator stopAnimating];
     
@@ -80,10 +51,9 @@ double frameRateScaleFactor;
 }
 
 - (IBAction)frameRateStepperChanged:(UIStepper *)sender {
-
+    
     self.playSloMoButton.enabled = NO;
     
-
     
     // Adjust frame rate
     frameRateScaleFactor = self.frameRateStepper.value;
@@ -125,7 +95,7 @@ double frameRateScaleFactor;
     
     self.playSloMoButton.enabled = YES;
     
-    [self initializeSlowMoVideoPlayers];
+    [self initializeSlowMoVideoPlayerDemo:YES andTraining:YES];
     
 }
 
@@ -148,33 +118,35 @@ double frameRateScaleFactor;
     }
 }
 
--(void)initializeSlowMoVideoPlayers
+-(void)initializeSlowMoVideoPlayerDemo:(BOOL)demoPlay andTraining:(BOOL)trainingPlay
 {
-    // Create AVPlayerItem from current video asset
-    AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoDemo];
     
-    // Initialize AVPlayer if necessary, otherwise replace the current AVPlayerItem
-    if (!self.slowMoPlayer) {
-        self.slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
-        AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayer];
-        [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
-        [self.view.layer addSublayer:slowMoPlayerLayer];
+    if (demoPlay) {
+        // Create AVPlayerItem from current video asset
+        AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoDemo];
+        
+        // Initialize AVPlayer if necessary, otherwise replace the current AVPlayerItem
+        if (!self.slowMoPlayer) {
+            self.slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
+            AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayer];
+            [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
+            [self.view.layer addSublayer:slowMoPlayerLayer];
+        }
+        else [self.slowMoPlayer replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
     }
-    else [self.slowMoPlayer replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
     
-    //    [self.slowMoPlayer seekToTime:kCMTimeZero];
-    
-    
-    
-    AVPlayerItem *slowMoPlayerItemTwo = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoTraining];
-    
-    if (!self.slowMoPlayerTwo) {
-        self.slowMoPlayerTwo = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItemTwo];
-        AVPlayerLayer *slowMoPlayerLayerTwo = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerTwo];
-        [slowMoPlayerLayerTwo setFrame:CGRectMake(self.trainingView.frame.origin.x, self.trainingView.frame.origin.y, self.trainingView.frame.size.width, self.trainingView.frame.size.height)];
-        [self.view.layer addSublayer:slowMoPlayerLayerTwo];
+    if (trainingPlay) {
+        AVPlayerItem *slowMoPlayerItemTwo = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoTraining];
+        
+        if (!self.slowMoPlayerTwo) {
+            self.slowMoPlayerTwo = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItemTwo];
+            AVPlayerLayer *slowMoPlayerLayerTwo = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerTwo];
+            [slowMoPlayerLayerTwo setFrame:CGRectMake(self.trainingView.frame.origin.x, self.trainingView.frame.origin.y, self.trainingView.frame.size.width, self.trainingView.frame.size.height)];
+            [self.view.layer addSublayer:slowMoPlayerLayerTwo];
+        }
+        else [self.slowMoPlayerTwo replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
+        
     }
-    else [self.slowMoPlayerTwo replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
 }
 
 
@@ -188,7 +160,10 @@ double frameRateScaleFactor;
     if (CFStringCompare((__bridge_retained CFStringRef)mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         
         self.submittedVideo = [AVAsset assetWithURL:[info objectForKey:UIImagePickerControllerMediaURL]];
-
+        
+        self.slowMoVideoTraining = self.submittedVideo;
+        [self initializeSlowMoVideoPlayerDemo:NO andTraining:YES];
+        
         self.playSloMoButton.enabled = YES;
         self.frameRateStepper.enabled = YES;
         
@@ -227,7 +202,7 @@ double frameRateScaleFactor;
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Import video from where?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Camera", nil];
     [actionSheet showInView:self.view];
-
+    
 }
 
 
