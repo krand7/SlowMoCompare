@@ -21,7 +21,9 @@
     
     NSDictionary *strikeFour = @{MOTION_NAME: @"Neck Hit", MOTION_EXPLANATION: @"Strike to the side of the neck using the blade of an open hand (palm up)", MOTION_DEMO: [self convertMovToAssetFromVideoName:@"neckhit_front"]};
     
-    NSMutableArray *basicMotions = [[NSMutableArray alloc] initWithObjects:strikeOne, strikeTwo, strikeThree, strikeFour, nil];
+    NSDictionary *taegeukOne = @{MOTION_NAME: @"Taegeuk Il-Jang", MOTION_EXPLANATION: @"this used to be beginner yellow", MOTION_DEMO: [self convertMovToAssetFromVideoName:@"taegeuk1"]};
+    
+    NSMutableArray *basicMotions = [[NSMutableArray alloc] initWithObjects:strikeOne, strikeTwo, strikeThree, strikeFour, taegeukOne, nil];
     
     return [basicMotions copy];
 }

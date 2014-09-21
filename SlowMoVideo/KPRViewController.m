@@ -17,6 +17,8 @@
 @implementation KPRViewController
 
 double frameRateScaleFactor;
+CMTime demoVideoDuration;
+CMTime trainingVideoDuration;
 
 - (void)viewDidLoad
 {
@@ -25,6 +27,7 @@ double frameRateScaleFactor;
     self.playSloMoButton.enabled = NO;
     self.slowMoVideoDemo = self.basicMotion.video;
     [self initializeSlowMoVideoPlayerDemo:YES andTraining:NO];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,16 +38,16 @@ double frameRateScaleFactor;
 
 
 
-#pragma mark - Slow motion
+#pragma mark - Slow motion controls
 
 - (IBAction)playSlowMoButtonPressed:(UIButton *)sender {
-    
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] init];
-    [activityIndicator startAnimating];
+
+    /* I need to make the videos initialize after playback is complete, so the play button only makes the videos play
     
     [self initializeSlowMoVideoPlayerDemo:YES andTraining:YES];
     
-    [activityIndicator stopAnimating];
+     */
+    
     
     [self.slowMoPlayer play];
     [self.slowMoPlayerTwo play];
@@ -90,6 +93,9 @@ double frameRateScaleFactor;
     CMTime videoDurationTwo = self.submittedVideo.duration;
     [videoTrackTwo scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDurationTwo) toDuration:CMTimeMake(videoDurationTwo.value*frameRateScaleFactor, videoDurationTwo.timescale)];
     
+    demoVideoDuration = mixComposition.duration;
+    trainingVideoDuration = mixCompositionTwo.duration;
+    
     self.slowMoVideoDemo = mixComposition;
     self.slowMoVideoTraining = mixCompositionTwo;
     
@@ -101,7 +107,46 @@ double frameRateScaleFactor;
 
 
 
+#pragma mark - Video playback interface
+
+- (IBAction)demoFrameSliderValueChanged:(UISlider *)sender {
+    
+    CMTime newTime = CMTimeMakeWithSeconds(CMTimeGetSeconds(demoVideoDuration) * self.demoFrameSlider.value/100, demoVideoDuration.timescale);
+    
+    [self updateTimeForDemo:YES toTime:newTime andTraining:NO toTime:newTime];
+    
+}
+
+- (void)videoPlaybackTimeChanged {
+    self.demoFrameSlider.value = round(CMTimeGetSeconds(self.slowMoPlayer.currentTime) / CMTimeGetSeconds(demoVideoDuration));
+}
+
+
 #pragma mark - Helper methods
+
+-(void)updateTimeForDemo:(BOOL)updateDemo toTime:(CMTime)demoTime andTraining:(BOOL)updateTraining toTime:(CMTime)trainingTime
+{
+    if (updateDemo) {
+        
+        // Seek to time, using a 20% tolerance
+        
+//        NSLog(@"Current time: %f", CMTimeGetSeconds(self.slowMoPlayer.currentTime));
+//        NSLog(@"Seek to time: %f", CMTimeGetSeconds(demoTime));
+//        NSLog(@"With tolerance: %f", CMTimeGetSeconds(CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale)));
+        
+        [self.slowMoPlayer seekToTime:demoTime toleranceBefore:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) toleranceAfter:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) completionHandler:^(BOOL finished) {
+                    NSLog(@"New time: %f", CMTimeGetSeconds(self.slowMoPlayer.currentTime));
+        }];
+        
+
+        
+        
+    }
+    
+    if (updateTraining) {
+        [self.slowMoPlayerTwo seekToTime:trainingTime];
+    }
+}
 
 -(BOOL)selectMovieToPlayFromViewController:(UIViewController *)controller usingDelegate:(id)delegate
 {
@@ -121,9 +166,13 @@ double frameRateScaleFactor;
 -(void)initializeSlowMoVideoPlayerDemo:(BOOL)demoPlay andTraining:(BOOL)trainingPlay
 {
     
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] init];
+    [activityIndicator startAnimating];
+    
     if (demoPlay) {
         // Create AVPlayerItem from current video asset
         AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoDemo];
+        NSLog(@"Can play reverse: %hhd",slowMoPlayerItem.canPlayReverse);
         
         // Initialize AVPlayer if necessary, otherwise replace the current AVPlayerItem
         if (!self.slowMoPlayer) {
@@ -131,8 +180,12 @@ double frameRateScaleFactor;
             AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayer];
             [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
             [self.view.layer addSublayer:slowMoPlayerLayer];
+            
+            demoVideoDuration = self.slowMoVideoDemo.duration;
+            
         }
         else [self.slowMoPlayer replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
+        
     }
     
     if (trainingPlay) {
@@ -147,6 +200,8 @@ double frameRateScaleFactor;
         else [self.slowMoPlayerTwo replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
         
     }
+    
+    [activityIndicator stopAnimating];
 }
 
 

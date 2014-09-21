@@ -30,6 +30,12 @@
 @property (strong, nonatomic) IBOutlet UIStepper *frameRateStepper;
 - (IBAction)frameRateStepperChanged:(UIStepper *)sender;
 
+- (IBAction)demoFrameSliderValueChanged:(UISlider *)sender;
+@property (strong, nonatomic) IBOutlet UISlider *demoFrameSlider;
+
+
+
+// Main User Interface
 - (IBAction)selectMovieButtonPressed:(UIBarButtonItem *)sender;
 - (IBAction)playSlowMoButtonPressed:(UIButton *)sender;
 
