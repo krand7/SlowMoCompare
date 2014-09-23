@@ -48,9 +48,31 @@ CMTime trainingVideoDuration;
     
      */
     
+    // If video has already finished, set player back to time zero
+    if (self.slowMoPlayerDemo.currentTime.value == self.slowMoVideoDemo.duration.value) [self.slowMoPlayerDemo seekToTime:kCMTimeZero];
+    if (self.slowMoPlayerTraining.currentTime.value == self.slowMoVideoTraining.duration.value) [self.slowMoPlayerTraining seekToTime:kCMTimeZero];
     
-    [self.slowMoPlayer play];
-    [self.slowMoPlayerTwo play];
+    // Different functions if videos are playing or not
+    if (self.slowMoPlayerDemo.rate) {
+        [self.slowMoPlayerDemo pause];
+        self.demoFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(self.slowMoVideoDemo.duration)) * 100;
+    }
+    else {
+        // Play video
+        [self.slowMoPlayerDemo play];
+        // Keep progress bar up-to-date
+        [self.slowMoPlayerDemo addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoDemo.duration.value/100, self.slowMoVideoDemo.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+            self.demoFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(self.slowMoVideoDemo.duration)) * 100;
+        }];
+        
+    }
+    
+    if (self.slowMoPlayerTraining.rate) {
+        [self.slowMoPlayerTraining pause];
+    }
+    else {
+        [self.slowMoPlayerTraining play];
+    }
 }
 
 - (IBAction)frameRateStepperChanged:(UIStepper *)sender {
@@ -118,7 +140,7 @@ CMTime trainingVideoDuration;
 }
 
 - (void)videoPlaybackTimeChanged {
-    self.demoFrameSlider.value = round(CMTimeGetSeconds(self.slowMoPlayer.currentTime) / CMTimeGetSeconds(demoVideoDuration));
+    self.demoFrameSlider.value = round(CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(demoVideoDuration));
 }
 
 
@@ -130,12 +152,12 @@ CMTime trainingVideoDuration;
         
         // Seek to time, using a 20% tolerance
         
-//        NSLog(@"Current time: %f", CMTimeGetSeconds(self.slowMoPlayer.currentTime));
+//        NSLog(@"Current time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
 //        NSLog(@"Seek to time: %f", CMTimeGetSeconds(demoTime));
 //        NSLog(@"With tolerance: %f", CMTimeGetSeconds(CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale)));
         
-        [self.slowMoPlayer seekToTime:demoTime toleranceBefore:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) toleranceAfter:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) completionHandler:^(BOOL finished) {
-                    NSLog(@"New time: %f", CMTimeGetSeconds(self.slowMoPlayer.currentTime));
+        [self.slowMoPlayerDemo seekToTime:demoTime toleranceBefore:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) toleranceAfter:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) completionHandler:^(BOOL finished) {
+                    NSLog(@"New time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
         }];
         
 
@@ -144,7 +166,7 @@ CMTime trainingVideoDuration;
     }
     
     if (updateTraining) {
-        [self.slowMoPlayerTwo seekToTime:trainingTime];
+        [self.slowMoPlayerTraining seekToTime:trainingTime];
     }
 }
 
@@ -172,32 +194,31 @@ CMTime trainingVideoDuration;
     if (demoPlay) {
         // Create AVPlayerItem from current video asset
         AVPlayerItem *slowMoPlayerItem = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoDemo];
-        NSLog(@"Can play reverse: %hhd",slowMoPlayerItem.canPlayReverse);
         
         // Initialize AVPlayer if necessary, otherwise replace the current AVPlayerItem
-        if (!self.slowMoPlayer) {
-            self.slowMoPlayer = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
-            AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayer];
+        if (!self.slowMoPlayerDemo) {
+            self.slowMoPlayerDemo = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
+            AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerDemo];
             [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
             [self.view.layer addSublayer:slowMoPlayerLayer];
             
             demoVideoDuration = self.slowMoVideoDemo.duration;
             
         }
-        else [self.slowMoPlayer replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
+        else [self.slowMoPlayerDemo replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
         
     }
     
     if (trainingPlay) {
         AVPlayerItem *slowMoPlayerItemTwo = [[AVPlayerItem alloc] initWithAsset:self.slowMoVideoTraining];
         
-        if (!self.slowMoPlayerTwo) {
-            self.slowMoPlayerTwo = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItemTwo];
-            AVPlayerLayer *slowMoPlayerLayerTwo = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerTwo];
+        if (!self.slowMoPlayerTraining) {
+            self.slowMoPlayerTraining = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItemTwo];
+            AVPlayerLayer *slowMoPlayerLayerTwo = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerTraining];
             [slowMoPlayerLayerTwo setFrame:CGRectMake(self.trainingView.frame.origin.x, self.trainingView.frame.origin.y, self.trainingView.frame.size.width, self.trainingView.frame.size.height)];
             [self.view.layer addSublayer:slowMoPlayerLayerTwo];
         }
-        else [self.slowMoPlayerTwo replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
+        else [self.slowMoPlayerTraining replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
         
     }
     

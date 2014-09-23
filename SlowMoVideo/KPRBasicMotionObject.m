@@ -21,7 +21,7 @@
     self = [super init];
     
     self.name = data[MOTION_NAME];
-    self.description = data[MOTION_EXPLANATION];
+    self.motionDescription = data[MOTION_EXPLANATION];
     self.video = data[MOTION_DEMO];
     
     return self;

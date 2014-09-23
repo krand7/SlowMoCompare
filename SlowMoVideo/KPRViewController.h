@@ -18,8 +18,8 @@
 @property (strong, nonatomic) AVAsset *submittedVideo;
 @property (strong, nonatomic) AVAsset *slowMoVideoDemo;
 @property (strong, nonatomic) AVAsset *slowMoVideoTraining;
-@property (strong, nonatomic) AVPlayer *slowMoPlayer;
-@property (strong, nonatomic) AVPlayer *slowMoPlayerTwo;
+@property (strong, nonatomic) AVPlayer *slowMoPlayerDemo;
+@property (strong, nonatomic) AVPlayer *slowMoPlayerTraining;
 
 @property (strong, nonatomic) IBOutlet UIView *demoView;
 @property (strong, nonatomic) IBOutlet UIView *trainingView;

@@ -137,12 +137,6 @@
     CMTime videoDuration = videoAssetOne.duration;
     
     [videoTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, videoDuration) toDuration:CMTimeMake(videoDuration.value*videoScaleFactor, videoDuration.timescale)];
-
-    // Prepare file
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *myPathDocs = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"slowmoVideo-%d.mov", arc4random() % 1000]];
-    NSURL *fileURL = [NSURL fileURLWithPath:myPathDocs];
     
     // Send to delegate
     NSLog(@"Asset prepared");

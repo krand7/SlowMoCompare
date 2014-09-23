@@ -12,7 +12,7 @@
 @interface KPRBasicMotionObject : NSObject
 
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *description;
+@property (strong, nonatomic) NSString *motionDescription;
 @property (strong, nonatomic) AVAsset *video;
 
 -(id)initWithData:(NSDictionary *)data;
