@@ -60,21 +60,25 @@ CMTime trainingVideoDuration;
         self.trainingFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(self.slowMoVideoTraining.duration)) *100;
     }
     else {
+        
         // Play video
         [self.slowMoPlayerDemo play];
+        // Keep progress bar up-to-date
+        __weak typeof(self) weakSelf = self;
+        [self.slowMoPlayerDemo addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoDemo.duration.value/100, self.slowMoVideoDemo.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+            weakSelf.demoFrameSlider.value = (CMTimeGetSeconds(weakSelf.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(weakSelf.slowMoVideoDemo.duration)) * 100;
+        }];
+        
+        // Do the same for trainingVideo, if the trainingVideo has already loaded
         if (self.slowMoVideoTraining.duration.value) {
             NSLog(@"%lld", self.slowMoVideoTraining.duration.value);
             [self.slowMoPlayerTraining play];
+            __weak typeof(self) weakSelf = self;
             [self.slowMoPlayerTraining addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoTraining.duration.value/100, self.slowMoVideoTraining.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-                self.trainingFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(self.slowMoVideoTraining.duration)) *100;
+                weakSelf.trainingFrameSlider.value = (CMTimeGetSeconds(weakSelf.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(weakSelf.slowMoVideoTraining.duration)) *100;
             }];
 
         }
-        
-        // Keep progress bar up-to-date
-        [self.slowMoPlayerDemo addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoDemo.duration.value/100, self.slowMoVideoDemo.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-            self.demoFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(self.slowMoVideoDemo.duration)) * 100;
-        }];
         
     }
 }
@@ -141,6 +145,7 @@ CMTime trainingVideoDuration;
     
     [self updateTimeForDemo:YES toTime:newTime andTraining:NO toTime:newTime];
     
+
 }
 
 - (void)videoPlaybackTimeChanged {
@@ -162,17 +167,11 @@ CMTime trainingVideoDuration;
 {
     if (updateDemo) {
         
-        // Seek to time, using a 20% tolerance
-        
-//        NSLog(@"Current time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
-//        NSLog(@"Seek to time: %f", CMTimeGetSeconds(demoTime));
-//        NSLog(@"With tolerance: %f", CMTimeGetSeconds(CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale)));
-        
         CMTime timeSeekTolerance = CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale);
         
         
         [self.slowMoPlayerDemo seekToTime:demoTime toleranceBefore:timeSeekTolerance toleranceAfter:timeSeekTolerance completionHandler:^(BOOL finished) {
-                    NSLog(@"New demo vid time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
+                NSLog(@"New demo vid time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
         }];
         
 
@@ -185,8 +184,8 @@ CMTime trainingVideoDuration;
         CMTime timeSeekTolerance = CMTimeMakeWithSeconds(CMTimeGetSeconds(trainingTime)*.2, trainingTime.timescale);
         
         [self.slowMoPlayerTraining seekToTime:trainingTime toleranceBefore:timeSeekTolerance toleranceAfter:timeSeekTolerance completionHandler:^(BOOL finished) {
-            NSLog(@"New training vid time: %f", CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime));
-        } ];
+                NSLog(@"New training vid time: %f", CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime));
+        }];
     }
 }
 
@@ -264,6 +263,8 @@ CMTime trainingVideoDuration;
     return [NSString stringWithFormat:@"%02.0f:%02.0f.%02.0f", floor(durationInMilliSeconds/60000), floor(durationInMilliSeconds/1000), floor(durationInMilliSeconds/10%100)];
     
 }
+
+
 
 #pragma mark - UIImagePickerController Delegate
 
