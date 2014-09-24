@@ -52,26 +52,30 @@ CMTime trainingVideoDuration;
     if (self.slowMoPlayerDemo.currentTime.value == self.slowMoVideoDemo.duration.value) [self.slowMoPlayerDemo seekToTime:kCMTimeZero];
     if (self.slowMoPlayerTraining.currentTime.value == self.slowMoVideoTraining.duration.value) [self.slowMoPlayerTraining seekToTime:kCMTimeZero];
     
-    // Different functions if videos are playing or not
+    /* Different functions if videos are playing or not */
     if (self.slowMoPlayerDemo.rate) {
         [self.slowMoPlayerDemo pause];
+        [self.slowMoPlayerTraining pause];
         self.demoFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(self.slowMoVideoDemo.duration)) * 100;
+        self.trainingFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(self.slowMoVideoTraining.duration)) *100;
     }
     else {
         // Play video
         [self.slowMoPlayerDemo play];
+        if (self.slowMoVideoTraining.duration.value) {
+            NSLog(@"%lld", self.slowMoVideoTraining.duration.value);
+            [self.slowMoPlayerTraining play];
+            [self.slowMoPlayerTraining addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoTraining.duration.value/100, self.slowMoVideoTraining.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+                self.trainingFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(self.slowMoVideoTraining.duration)) *100;
+            }];
+
+        }
+        
         // Keep progress bar up-to-date
         [self.slowMoPlayerDemo addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoDemo.duration.value/100, self.slowMoVideoDemo.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
             self.demoFrameSlider.value = (CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(self.slowMoVideoDemo.duration)) * 100;
         }];
         
-    }
-    
-    if (self.slowMoPlayerTraining.rate) {
-        [self.slowMoPlayerTraining pause];
-    }
-    else {
-        [self.slowMoPlayerTraining play];
     }
 }
 
@@ -143,6 +147,14 @@ CMTime trainingVideoDuration;
     self.demoFrameSlider.value = round(CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(demoVideoDuration));
 }
 
+- (IBAction)trainingFrameSliderValueChanged:(UISlider *)sender {
+    
+    CMTime newTime = CMTimeMakeWithSeconds(CMTimeGetSeconds(trainingVideoDuration) * self.trainingFrameSlider.value/100, trainingVideoDuration.timescale);
+    
+    [self updateTimeForDemo:NO toTime:newTime andTraining:YES toTime:newTime];
+    
+}
+
 
 #pragma mark - Helper methods
 
@@ -156,8 +168,11 @@ CMTime trainingVideoDuration;
 //        NSLog(@"Seek to time: %f", CMTimeGetSeconds(demoTime));
 //        NSLog(@"With tolerance: %f", CMTimeGetSeconds(CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale)));
         
-        [self.slowMoPlayerDemo seekToTime:demoTime toleranceBefore:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) toleranceAfter:CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale) completionHandler:^(BOOL finished) {
-                    NSLog(@"New time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
+        CMTime timeSeekTolerance = CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale);
+        
+        
+        [self.slowMoPlayerDemo seekToTime:demoTime toleranceBefore:timeSeekTolerance toleranceAfter:timeSeekTolerance completionHandler:^(BOOL finished) {
+                    NSLog(@"New demo vid time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
         }];
         
 
@@ -166,7 +181,12 @@ CMTime trainingVideoDuration;
     }
     
     if (updateTraining) {
-        [self.slowMoPlayerTraining seekToTime:trainingTime];
+        
+        CMTime timeSeekTolerance = CMTimeMakeWithSeconds(CMTimeGetSeconds(trainingTime)*.2, trainingTime.timescale);
+        
+        [self.slowMoPlayerTraining seekToTime:trainingTime toleranceBefore:timeSeekTolerance toleranceAfter:timeSeekTolerance completionHandler:^(BOOL finished) {
+            NSLog(@"New training vid time: %f", CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime));
+        } ];
     }
 }
 
@@ -207,6 +227,10 @@ CMTime trainingVideoDuration;
         }
         else [self.slowMoPlayerDemo replaceCurrentItemWithPlayerItem:slowMoPlayerItem];
         
+        // Set timing labels
+        self.demoTimeStartLabel.text = [NSString stringWithFormat: @"00:00.00"];
+        self.demoTimeEndLabel.text = [self timeDisplayFromCMTime:self.slowMoVideoDemo.duration];
+        
     }
     
     if (trainingPlay) {
@@ -220,12 +244,26 @@ CMTime trainingVideoDuration;
         }
         else [self.slowMoPlayerTraining replaceCurrentItemWithPlayerItem:slowMoPlayerItemTwo];
         
+        // Set timing labels
+        self.trainingTimeStartLabel.text = [NSString stringWithFormat: @"00:00.00"];
+        self.trainingTimeEndLabel.text = [self timeDisplayFromCMTime:self.slowMoVideoDemo.duration];
+        
     }
+    
     
     [activityIndicator stopAnimating];
 }
 
-
+-(NSString *)timeDisplayFromCMTime:(CMTime)time
+{
+    NSUInteger durationInMilliSeconds = CMTimeGetSeconds(time)*1000;
+    
+    NSLog(@"%f", CMTimeGetSeconds(self.slowMoVideoDemo.duration));
+    NSLog(@"%02.0f, %02.0f, %02.0f", floor(durationInMilliSeconds/60000), floor(durationInMilliSeconds/1000), floor(durationInMilliSeconds/10%100));
+    
+    return [NSString stringWithFormat:@"%02.0f:%02.0f.%02.0f", floor(durationInMilliSeconds/60000), floor(durationInMilliSeconds/1000), floor(durationInMilliSeconds/10%100)];
+    
+}
 
 #pragma mark - UIImagePickerController Delegate
 
@@ -280,6 +318,5 @@ CMTime trainingVideoDuration;
     [actionSheet showInView:self.view];
     
 }
-
 
 @end

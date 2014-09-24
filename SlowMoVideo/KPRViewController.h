@@ -32,6 +32,12 @@
 
 - (IBAction)demoFrameSliderValueChanged:(UISlider *)sender;
 @property (strong, nonatomic) IBOutlet UISlider *demoFrameSlider;
+- (IBAction)trainingFrameSliderValueChanged:(UISlider *)sender;
+@property (strong, nonatomic) IBOutlet UISlider *trainingFrameSlider;
+@property (strong, nonatomic) IBOutlet UILabel *demoTimeStartLabel;
+@property (strong, nonatomic) IBOutlet UILabel *demoTimeEndLabel;
+@property (strong, nonatomic) IBOutlet UILabel *trainingTimeStartLabel;
+@property (strong, nonatomic) IBOutlet UILabel *trainingTimeEndLabel;
 
 
 
