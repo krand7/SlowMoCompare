@@ -61,24 +61,12 @@ CMTime trainingVideoDuration;
     }
     else {
         
-        // Play video
-        [self.slowMoPlayerDemo play];
-        // Keep progress bar up-to-date
-        __weak typeof(self) weakSelf = self;
-        [self.slowMoPlayerDemo addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoDemo.duration.value/100, self.slowMoVideoDemo.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-            weakSelf.demoFrameSlider.value = (CMTimeGetSeconds(weakSelf.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(weakSelf.slowMoVideoDemo.duration)) * 100;
-        }];
-        
-        // Do the same for trainingVideo, if the trainingVideo has already loaded
+        // Play trainingVideo, if the trainingVideo has already loaded
         if (self.slowMoVideoTraining.duration.value) {
-            NSLog(@"%lld", self.slowMoVideoTraining.duration.value);
             [self.slowMoPlayerTraining play];
-            __weak typeof(self) weakSelf = self;
-            [self.slowMoPlayerTraining addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoTraining.duration.value/100, self.slowMoVideoTraining.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-                weakSelf.trainingFrameSlider.value = (CMTimeGetSeconds(weakSelf.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(weakSelf.slowMoVideoTraining.duration)) *100;
-            }];
-
         }
+        // Play demoVideo
+        [self.slowMoPlayerDemo play];
         
     }
 }
@@ -129,8 +117,24 @@ CMTime trainingVideoDuration;
     self.slowMoVideoDemo = mixComposition;
     self.slowMoVideoTraining = mixCompositionTwo;
     
-    self.playSloMoButton.enabled = YES;
+    // Update periodic timed observer
+    __weak typeof(self) weakSelf = self;
+    if (self.slowMoVideoDemo.duration.value) {
+        [self.slowMoPlayerDemo addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoDemo.duration.value/100, self.slowMoVideoDemo.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+            weakSelf.demoFrameSlider.value = (CMTimeGetSeconds(weakSelf.slowMoPlayerDemo.currentTime) / CMTimeGetSeconds(weakSelf.slowMoVideoDemo.duration)) * 100;
+            weakSelf.demoTimeStartLabel.text = [weakSelf timeDisplayFromCMTime:weakSelf.slowMoPlayerDemo.currentTime];
+        }];
+    }
+    if (self.slowMoVideoTraining.duration.value) {
+        [self.slowMoPlayerTraining addPeriodicTimeObserverForInterval:CMTimeMake(self.slowMoVideoTraining.duration.value/100, self.slowMoVideoTraining.duration.timescale) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+            weakSelf.trainingFrameSlider.value = (CMTimeGetSeconds(weakSelf.slowMoPlayerTraining.currentTime) / CMTimeGetSeconds(weakSelf.slowMoVideoTraining.duration)) *100;
+            weakSelf.trainingTimeStartLabel.text = [weakSelf timeDisplayFromCMTime:weakSelf.slowMoPlayerTraining.currentTime];
+        }];
+    }
     
+    
+    // Allow playback
+    self.playSloMoButton.enabled = YES;
     [self initializeSlowMoVideoPlayerDemo:YES andTraining:YES];
     
 }
@@ -169,14 +173,9 @@ CMTime trainingVideoDuration;
         
         CMTime timeSeekTolerance = CMTimeMakeWithSeconds(CMTimeGetSeconds(demoTime)*.2, demoTime.timescale);
         
-        
         [self.slowMoPlayerDemo seekToTime:demoTime toleranceBefore:timeSeekTolerance toleranceAfter:timeSeekTolerance completionHandler:^(BOOL finished) {
-                NSLog(@"New demo vid time: %f", CMTimeGetSeconds(self.slowMoPlayerDemo.currentTime));
+                // code after seek completes successfully
         }];
-        
-
-        
-        
     }
     
     if (updateTraining) {
@@ -184,7 +183,7 @@ CMTime trainingVideoDuration;
         CMTime timeSeekTolerance = CMTimeMakeWithSeconds(CMTimeGetSeconds(trainingTime)*.2, trainingTime.timescale);
         
         [self.slowMoPlayerTraining seekToTime:trainingTime toleranceBefore:timeSeekTolerance toleranceAfter:timeSeekTolerance completionHandler:^(BOOL finished) {
-                NSLog(@"New training vid time: %f", CMTimeGetSeconds(self.slowMoPlayerTraining.currentTime));
+                // code after seek completes successfully
         }];
     }
 }
@@ -218,8 +217,8 @@ CMTime trainingVideoDuration;
         if (!self.slowMoPlayerDemo) {
             self.slowMoPlayerDemo = [[AVPlayer alloc] initWithPlayerItem:slowMoPlayerItem];
             AVPlayerLayer *slowMoPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.slowMoPlayerDemo];
-            [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.frame.origin.x, self.demoView.frame.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
-            [self.view.layer addSublayer:slowMoPlayerLayer];
+            [slowMoPlayerLayer setFrame:CGRectMake(self.demoView.bounds.origin.x , self.demoView.bounds.origin.y, self.demoView.frame.size.width, self.demoView.frame.size.height)];
+            [self.demoView.layer insertSublayer:slowMoPlayerLayer atIndex:0];
             
             demoVideoDuration = self.slowMoVideoDemo.duration;
             
@@ -256,10 +255,6 @@ CMTime trainingVideoDuration;
 -(NSString *)timeDisplayFromCMTime:(CMTime)time
 {
     NSUInteger durationInMilliSeconds = CMTimeGetSeconds(time)*1000;
-    
-    NSLog(@"%f", CMTimeGetSeconds(self.slowMoVideoDemo.duration));
-    NSLog(@"%02.0f, %02.0f, %02.0f", floor(durationInMilliSeconds/60000), floor(durationInMilliSeconds/1000), floor(durationInMilliSeconds/10%100));
-    
     return [NSString stringWithFormat:@"%02.0f:%02.0f.%02.0f", floor(durationInMilliSeconds/60000), floor(durationInMilliSeconds/1000), floor(durationInMilliSeconds/10%100)];
     
 }
@@ -320,4 +315,75 @@ CMTime trainingVideoDuration;
     
 }
 
+#pragma mark - KPRTouchTrackerView Delegate
+
+-(void)getNewBezierPath:(UIBezierPath *)path
+{
+    // Initiate if needed
+    if (!self.existingPathsView.storedPaths) {
+        self.existingPathsView.storedPaths = [[NSMutableArray alloc] init];
+        NSLog(@"Initiated main VC's storedPaths array");
+    }
+    // Add path
+    [self.existingPathsView.storedPaths addObject:path];
+    NSLog(@"Added path: %lu", [self.existingPathsView.storedPaths count]);
+    [self.existingPathsView setNeedsDisplay];
+}
+
+-(BOOL)drawingIsEnabled
+{
+    return self.drawButton.isSelected;
+}
+
+-(BOOL)erasingIsEnabled
+{
+    return self.eraseButton.isSelected;
+}
+
+-(void)checkForPathSelected:(CGPoint)tapPoint
+{
+    
+    UIBezierPath *pathToRemove = NULL;
+    
+    for (UIBezierPath *path in self.existingPathsView.storedPaths) {
+        if ([path containsPoint:tapPoint]) {
+            NSLog(@"existing path was selected!");
+            pathToRemove = path;
+        } else {
+        }
+    }
+    
+    if (pathToRemove) {
+        NSLog(@"%lu", [self.existingPathsView.storedPaths count]);
+        [self.existingPathsView.storedPaths removeObject:pathToRemove];
+        NSLog(@"%lu", [self.existingPathsView.storedPaths count]);
+        [self.existingPathsView setNeedsDisplay];
+        NSLog(@"removed path successfully!");
+    }
+    
+}
+
+#pragma mark - Drawing and erasing interface
+
+- (IBAction)drawButtonPressed:(UIButton *)sender {
+    if ([sender isSelected]) [sender setSelected:NO];
+    else {
+        [sender setSelected:YES];
+        [self.eraseButton setSelected:NO];
+    }
+    // Clear current paths from TouchTrackerView
+    self.touchTrackerView.delegate = self;
+    [self.touchTrackerView clearTouchTrackerView];
+    
+}
+
+- (IBAction)eraseButtonPressed:(UIButton *)sender {
+    if ([sender isSelected]) [sender setSelected:NO];
+    else {
+        [sender setSelected:YES];
+        [self.drawButton setSelected:NO];
+    }
+    // Clear current paths from TouchTrackerView
+    [self.touchTrackerView clearTouchTrackerView];
+}
 @end

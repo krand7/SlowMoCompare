@@ -28,6 +28,8 @@
 		6D2F1E6419C75C0100683D5F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2F1E5E19C75C0100683D5F /* MobileCoreServices.framework */; };
 		6D2F1E6519C75C0100683D5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2F1E5F19C75C0100683D5F /* QuartzCore.framework */; };
 		6D2F1E6819C75C6D00683D5F /* KPRRecordVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */; };
+		6D85339719D3795B00D52B89 /* KPRTouchTrackerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85339619D3795B00D52B89 /* KPRTouchTrackerView.m */; };
+		6D8533F819D9C5A800D52B89 /* KPRExistingPathsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8533F719D9C5A800D52B89 /* KPRExistingPathsView.m */; };
 		6DDFCB3819C78A9600C2EC12 /* KPREditVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */; };
 		6DDFCB3B19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB3A19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m */; };
 		6DDFCB4119C8D7BC00C2EC12 /* KPRBasicMotionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFCB4019C8D7BC00C2EC12 /* KPRBasicMotionData.m */; };
@@ -82,6 +84,10 @@
 		6D2F1E5F19C75C0100683D5F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6D2F1E6619C75C6D00683D5F /* KPRRecordVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPRRecordVideoViewController.h; sourceTree = "<group>"; };
 		6D2F1E6719C75C6D00683D5F /* KPRRecordVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPRRecordVideoViewController.m; sourceTree = "<group>"; };
+		6D85339519D3795B00D52B89 /* KPRTouchTrackerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPRTouchTrackerView.h; sourceTree = "<group>"; };
+		6D85339619D3795B00D52B89 /* KPRTouchTrackerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPRTouchTrackerView.m; sourceTree = "<group>"; };
+		6D8533F619D9C5A800D52B89 /* KPRExistingPathsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPRExistingPathsView.h; sourceTree = "<group>"; };
+		6D8533F719D9C5A800D52B89 /* KPRExistingPathsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPRExistingPathsView.m; sourceTree = "<group>"; };
 		6DDFCB3619C78A9600C2EC12 /* KPREditVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPREditVideoViewController.h; sourceTree = "<group>"; };
 		6DDFCB3719C78A9600C2EC12 /* KPREditVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPREditVideoViewController.m; sourceTree = "<group>"; };
 		6DDFCB3919C8D07F00C2EC12 /* KPRChooseMoveTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPRChooseMoveTableViewController.h; sourceTree = "<group>"; };
@@ -175,7 +181,7 @@
 				6D2F1E3319C7425E00683D5F /* KPRAppDelegate.m */,
 				6D2F1E3519C7425E00683D5F /* Main.storyboard */,
 				6DDFCB3D19C8D0A500C2EC12 /* Root Navigation */,
-				6DDFCB3E19C8D0AE00C2EC12 /* Main View */,
+				6DDFCB3E19C8D0AE00C2EC12 /* Main SlowMoView */,
 				6DDFCB3C19C8D09300C2EC12 /* Video Options */,
 				6DDFCB4919C8E42700C2EC12 /* Data */,
 				6D2F1E3B19C7425E00683D5F /* Images.xcassets */,
@@ -242,13 +248,17 @@
 			name = "Root Navigation";
 			sourceTree = "<group>";
 		};
-		6DDFCB3E19C8D0AE00C2EC12 /* Main View */ = {
+		6DDFCB3E19C8D0AE00C2EC12 /* Main SlowMoView */ = {
 			isa = PBXGroup;
 			children = (
 				6D2F1E3819C7425E00683D5F /* KPRViewController.h */,
 				6D2F1E3919C7425E00683D5F /* KPRViewController.m */,
+				6D85339519D3795B00D52B89 /* KPRTouchTrackerView.h */,
+				6D85339619D3795B00D52B89 /* KPRTouchTrackerView.m */,
+				6D8533F619D9C5A800D52B89 /* KPRExistingPathsView.h */,
+				6D8533F719D9C5A800D52B89 /* KPRExistingPathsView.m */,
 			);
-			name = "Main View";
+			name = "Main SlowMoView";
 			sourceTree = "<group>";
 		};
 		6DDFCB4919C8E42700C2EC12 /* Data */ = {
@@ -384,8 +394,10 @@
 				6D2F1E3419C7425E00683D5F /* KPRAppDelegate.m in Sources */,
 				6D2F1E3A19C7425E00683D5F /* KPRViewController.m in Sources */,
 				6DDFCB3B19C8D07F00C2EC12 /* KPRChooseMoveTableViewController.m in Sources */,
+				6D85339719D3795B00D52B89 /* KPRTouchTrackerView.m in Sources */,
 				6DDFCB4819C8E42200C2EC12 /* KPRBasicMotionObject.m in Sources */,
 				6D2F1E3019C7425E00683D5F /* main.m in Sources */,
+				6D8533F819D9C5A800D52B89 /* KPRExistingPathsView.m in Sources */,
 				6D2F1E6819C75C6D00683D5F /* KPRRecordVideoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

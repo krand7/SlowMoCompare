@@ -38,6 +38,38 @@
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="psj-kg-OVe">
                                 <rect key="frame" x="0.0" y="65" width="320" height="186"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b7y-de-IYP" customClass="KPRExistingPathsView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="luj-g7-swF" customClass="KPRTouchTrackerView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAo-3b-IwN">
+                                                <rect key="frame" x="266" y="8" width="46" height="25"/>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <state key="normal" title="Draw">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="drawButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BDg-B2-Anb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0jN-gs-PNc">
+                                                <rect key="frame" x="266" y="34" width="46" height="25"/>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <state key="normal" title="Erase">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="eraseButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ys7-ed-f8B"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rSa-nx-1uq">
@@ -132,9 +164,13 @@
                         <outlet property="demoTimeEndLabel" destination="iql-Vu-cFm" id="ebe-ib-RVR"/>
                         <outlet property="demoTimeStartLabel" destination="4gs-Tp-MnA" id="1ta-vK-05u"/>
                         <outlet property="demoView" destination="psj-kg-OVe" id="N63-6N-jIn"/>
+                        <outlet property="drawButton" destination="IAo-3b-IwN" id="dUE-NB-EGZ"/>
+                        <outlet property="eraseButton" destination="0jN-gs-PNc" id="AKc-qP-mcn"/>
+                        <outlet property="existingPathsView" destination="b7y-de-IYP" id="Ll4-qT-N8J"/>
                         <outlet property="frameRateLabel" destination="0iW-kS-PKb" id="C3Z-eF-nye"/>
                         <outlet property="frameRateStepper" destination="vpY-gk-O1f" id="tdh-cL-Dtr"/>
                         <outlet property="playSloMoButton" destination="sRg-Ma-yYP" id="yoP-5d-2HD"/>
+                        <outlet property="touchTrackerView" destination="luj-g7-swF" id="CEn-Ma-d6v"/>
                         <outlet property="trainingFrameSlider" destination="5df-ig-56L" id="AoK-kV-IpI"/>
                         <outlet property="trainingTimeEndLabel" destination="qju-7w-qwJ" id="Cp9-X3-e1g"/>
                         <outlet property="trainingTimeStartLabel" destination="Iap-uB-Pel" id="vtf-Tf-QjN"/>
